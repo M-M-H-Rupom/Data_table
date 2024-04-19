@@ -16,7 +16,32 @@ class person_table extends WP_List_Table{
             'name' => "Name",
             'gmail' => "Gmail",
             'address'=> "Address",
+            'gender' => 'Gender'
         ];
+    }
+    function extra_tablenav($which){
+        $selected_male = '';
+        $selected_female = '';
+            if(($_REQUEST['filter_s'] == 'male')){
+                $selected_male = 'selected';
+            }elseif($_REQUEST['filter_s'] == 'female'){
+              $selected_female = 'selected';  
+            }
+        
+        if('top' == $which):
+        ?>
+        <div class="actions">
+            <select name="filter_s" id="filter_s">
+                <option value="all">All</option>
+                <option value="male" <?php echo $selected_male ?> >Male</option>
+                <option value="female" <?php echo $selected_female ?> >feMale</option>
+            </select>
+            <?php
+            submit_button('filter', 'primary','submit',false);
+            ?>
+        </div>
+        <?php
+        endif;
     }
     function get_sortable_columns(){
         return [

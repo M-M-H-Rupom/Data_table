@@ -20,10 +20,22 @@ class Data_table{
         }
         return false;
     }
+    function datatable_filter_gender($item){
+        $gender = $_REQUEST['filter_s'] ?? 'all';
+        if('all' == $gender){
+            return true;
+        }else{
+            return $item['gender'] == $gender;
+        }
+        return false;
+    }
     public function display_datatable(){
         include_once('dataset.php');
-        if(isset($_REQUEST['s'])){
+        if(isset($_REQUEST['s']) && !empty($_REQUEST['s'])){
             $data = array_filter($data, array($this,'datatable_search'));
+        }
+        if(isset($_REQUEST['filter_s']) && !empty($_REQUEST['filter_s'])){
+            $data = array_filter($data, array($this,'datatable_filter_gender'));
         }
         $orderby = $_REQUEST['orderby'] ?? 1;
         $order = $_REQUEST['order'] ?? 1;
