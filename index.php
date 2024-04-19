@@ -25,7 +25,31 @@ class Data_table{
         if(isset($_REQUEST['s'])){
             $data = array_filter($data, array($this,'datatable_search'));
         }
+        $orderby = $_REQUEST['orderby'] ?? 1;
+        $order = $_REQUEST['order'] ?? 1;
         $table = new person_table();
+        if('name' == $orderby){
+            if('asc' == $order){
+                usort($data,function($item1,$item2){
+                    return $item2['name'] <=> $item1['name'];
+                });
+            }else{
+                usort($data,function($item1,$item2){
+                    return $item1['name'] <=> $item2['name'];
+                });
+            }
+        }
+        if('gmail' == $orderby){
+            if('asc' == $order){
+                usort($data,function($item1,$item2){
+                    return $item2['gmail'] <=> $item1['gmail'];
+                });
+            }else{
+                usort($data,function($item1,$item2){
+                    return $item1['gmail'] <=> $item2['gmail'];
+                });
+            }
+        }
         $table->set_data($data);
         $table->prepare_items();
         ?>
